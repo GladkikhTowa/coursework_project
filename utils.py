@@ -7,7 +7,9 @@ def load_file():
         json_load = json.load(file)
     return json_load
 
+
 load_file()
+
 
 def sort_info():
     """Сортируем наш список по статусу EXECUTED
@@ -19,15 +21,28 @@ def sort_info():
             operations.append(i)
     return sorted(operations, key=lambda x: x["date"], reverse=True)[:5]
 
-print(sort_info()
+
+sort_info()
 
 
-
-def get_number(number):
+def get_number():
     """Преобразуем номер карты и номер счета в необходимый формат
     Maestro 1913883747791351 -> 1913 88** **** 1351
     Счет 72645194281643232984 -> **2984 """
-    pass
+    number = sort_info()
+    for num in number:
+        if 'from' in num:
+            if num['from'].startswith('Visa Classic'):
+                print(f"{num['from'][:19]}** ****{num['from'][25:]} ---> **{num['to'][21:]}")
+            elif num['from'].startswith('Maestro'):
+                print(f"{num['from'][:17]}** ****{num['from'][20:]} ---> **{num['to'][21:]}")
+            elif num['from'].startswith('Счет'):
+                print(f"{num['from'][:5]} ****{num['from'][21:]} ---> **{num['to'][21:]}")
+        else:
+            print(f"---> **{num['to'][21:]}")
+
+
+get_number()
 
 
 def get_date(date):
